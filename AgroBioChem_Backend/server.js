@@ -29,10 +29,12 @@ if (process.env.NODE_ENV === 'development') {
 const Admins = require('./routes/adminRoute');
 const Keys = require('./routes/keyRoute');
 const Products = require('./routes/productRoute');
+const Questions = require('./routes/questionRoute');
 
 app.use('/agrobiochem/api/admins', Admins);
 app.use('/agrobiochem/api/keys', Keys);
 app.use('/agrobiochem/api/products', Products);
+app.use('/agrobiochem/api/questions', Questions);
 
 const PORT = process.env.PORT;
 const DEV = process.env.NODE_ENV;
