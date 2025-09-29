@@ -41,11 +41,21 @@ exports.createAdmin = async (req, res) => {
   try {
     const { fullname, dob, gender, location, contact, email, password } =
       req.body;
-    if (!password) {
+
+    if (
+      !fullname ||
+      !dob ||
+      !gender ||
+      !location ||
+      !contact ||
+      !email ||
+      !password
+    ) {
       return res
         .status(400)
-        .json({ success: false, msg: 'Password is required' });
+        .json({ success: false, msg: 'All fields are required' });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const admin = await Admin.create({
@@ -57,9 +67,12 @@ exports.createAdmin = async (req, res) => {
       email,
       password: hashedPassword,
     });
+
     res.status(201).json({ success: true, msg: 'Admin created', admin });
   } catch (error) {
+    console.error('Error creating admin:', error);
     res.status(400).json({ success: false, message: error.message });
+    console.log(error);
   }
 };
 
@@ -79,7 +92,11 @@ exports.loginAdmin = async (req, res) => {
           return res.status(200).json({
             success: true,
             message: 'Login successful',
-            data: { email: admin.email },
+            admin: {
+              id: admin._id,
+              email: admin.email,
+              fullname: admin.fullname,
+            },
           });
         }
       }

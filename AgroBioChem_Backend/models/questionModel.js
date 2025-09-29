@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const questionSchema = mongoose.Schema({
-  fullName: {
+  fullname: {
     type: String,
     require: true,
   },
